@@ -1,1 +1,1 @@
-## Operating System Lab Project
+## Operating Systems Lab Project
