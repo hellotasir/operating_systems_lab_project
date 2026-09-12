@@ -14,9 +14,6 @@ export const ALGORITHMS = [
   { id: "LJF", name: "Longest Job First" },
 ];
 
-// Algorithms that need an extra, algorithm-specific input (besides the
-// shared process list) before they can be run. Used to drive the
-// per-algorithm input collection UI in the comparison module.
 export const QUANTUM_ALGORITHMS = ["RR"];
 
 export const INITIAL_STATE = {
@@ -34,14 +31,14 @@ export function getAlgorithmProcesses(state, algorithm) {
 
 export const STEPS = [
   {
-    id: "identity",
-    eyebrow: "Project",
-    title: "Course & Group Details",
-  },
-  {
     id: "intro",
     eyebrow: "Operating Systems",
     title: "CPU Scheduling Visualizer",
+  },
+  {
+    id: "identity",
+    eyebrow: "Project",
+    title: "Course & Group Details",
   },
   {
     id: "input",
@@ -75,7 +72,8 @@ export const STEPS = [
     id: "comparison",
     eyebrow: "Step 5 of 5",
     title: "Compare Algorithms",
-    description: "See how your selected algorithms stack up against each other.",
+    description:
+      "See how your selected algorithms stack up against each other.",
   },
   {
     id: "end",
@@ -110,7 +108,8 @@ export function canAdvanceFromStep(stepId, state) {
       return state.selectedAlgorithms.length >= 2;
     case "compare-setup":
       return state.selectedAlgorithms.every((algorithm) => {
-        if (!isValidProcessList(getAlgorithmProcesses(state, algorithm))) return false;
+        if (!isValidProcessList(getAlgorithmProcesses(state, algorithm)))
+          return false;
         if (!QUANTUM_ALGORITHMS.includes(algorithm)) return true;
         return Number(state.quantums[algorithm]) >= 1;
       });
@@ -162,7 +161,9 @@ export function schedulerReducer(state, action) {
 function normalizeProcesses(processes) {
   return processes
     .map((process, index) => ({
-      id: String(process.id || `P${index + 1}`).trim().slice(0, 12),
+      id: String(process.id || `P${index + 1}`)
+        .trim()
+        .slice(0, 12),
       at: Math.max(0, Number(process.at) || 0),
       bt: Math.max(1, Number(process.bt) || 1),
       priority: Math.max(1, Number(process.priority) || 1),
@@ -210,7 +211,9 @@ function calculateMetrics(processes, gantt) {
 }
 
 function fcfs(input) {
-  const processes = [...input].sort((a, b) => a.at - b.at || a.id.localeCompare(b.id));
+  const processes = [...input].sort(
+    (a, b) => a.at - b.at || a.id.localeCompare(b.id),
+  );
   const gantt = [];
   let time = 0;
 
@@ -265,7 +268,10 @@ function priorityScheduling(input) {
   while (completed.size < processes.length) {
     const available = processes
       .filter((process) => !completed.has(process.id) && process.at <= time)
-      .sort((a, b) => a.priority - b.priority || a.at - b.at || a.id.localeCompare(b.id));
+      .sort(
+        (a, b) =>
+          a.priority - b.priority || a.at - b.at || a.id.localeCompare(b.id),
+      );
 
     if (!available.length) {
       const next = processes
@@ -287,8 +293,12 @@ function priorityScheduling(input) {
 }
 
 function roundRobin(input, quantum) {
-  const processes = [...input].sort((a, b) => a.at - b.at || a.id.localeCompare(b.id));
-  const remaining = new Map(processes.map((process) => [process.id, process.bt]));
+  const processes = [...input].sort(
+    (a, b) => a.at - b.at || a.id.localeCompare(b.id),
+  );
+  const remaining = new Map(
+    processes.map((process) => [process.id, process.bt]),
+  );
   const gantt = [];
   const queue = [];
   let time = 0;
@@ -332,7 +342,9 @@ function roundRobin(input, quantum) {
 
 function srtf(input) {
   const processes = [...input];
-  const remaining = new Map(processes.map((process) => [process.id, process.bt]));
+  const remaining = new Map(
+    processes.map((process) => [process.id, process.bt]),
+  );
   const gantt = [];
   let time = 0;
   let completed = 0;
@@ -340,7 +352,12 @@ function srtf(input) {
   while (completed < processes.length) {
     const available = processes
       .filter((process) => process.at <= time && remaining.get(process.id) > 0)
-      .sort((a, b) => remaining.get(a.id) - remaining.get(b.id) || a.at - b.at || a.id.localeCompare(b.id));
+      .sort(
+        (a, b) =>
+          remaining.get(a.id) - remaining.get(b.id) ||
+          a.at - b.at ||
+          a.id.localeCompare(b.id),
+      );
 
     if (!available.length) {
       const future = processes

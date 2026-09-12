@@ -19,6 +19,7 @@ import {
   Statistics,
   StepFrame,
 } from "./components";
+import { useDisableContextMenu } from "./useDisableContextMenu";
 
 const slideVariants = {
   enter: (direction) => ({ opacity: 0, x: direction > 0 ? 48 : -48 }),
@@ -31,10 +32,10 @@ function StepBody({ stepId }) {
   const comparisonResults = useComparisonResults();
 
   switch (stepId) {
-    case "identity":
-      return <IdentitySlide />;
     case "intro":
       return <IntroSlide />;
+    case "identity":
+      return <IdentitySlide />;
     case "input":
       return <ProcessInput />;
     case "algorithm":
@@ -104,6 +105,7 @@ function Dashboard() {
 }
 
 export default function App() {
+  useDisableContextMenu();
   return (
     <SchedulerProvider>
       <Dashboard />
