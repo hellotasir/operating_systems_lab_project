@@ -1,25 +1,22 @@
 import { AnimatePresence, motion } from "motion/react";
-
-import { SchedulerProvider } from "./SchedulerProvider";
+import { IntroSlide } from "./components/IntroSlide";
+import { IdentitySlide } from "./components/IndentitySlide";
+import { ProcessInput } from "./components/ProcessInput";
+import { AlgorithmSelector } from "./components/AlgorithmSelector";
 import {
   useAlgorithmResult,
   useComparisonResults,
   useScheduler,
-} from "./useScheduler";
-import {
-  AlgorithmSelector,
-  Comparison,
-  ComparisonSetup,
-  EndSlide,
-  GanttChart,
-  IdentitySlide,
-  IntroSlide,
-  ProcessInput,
-  ResultsTable,
-  Statistics,
-  StepFrame,
-} from "./components";
-import { useDisableContextMenu } from "./useDisableContextMenu";
+} from "./hooks/useScheduler";
+import { Statistics } from "./components/Statistics";
+import { GanttChart } from "./components/GantChart";
+import { ResultsTable } from "./components/ResultTable";
+import { ComparisonSetup } from "./components/ComparisonSetup";
+import { Comparison } from "./components/Comparison";
+import { EndSlide } from "./components/EndSlide";
+import { StepFrame } from "./components/Stepframe";
+import { useDisableContextMenu } from "./hooks/useDisableContextMenu";
+import { SchedulerProvider } from "./context/SchedulerProvider";
 
 const slideVariants = {
   enter: (direction) => ({ opacity: 0, x: direction > 0 ? 48 : -48 }),

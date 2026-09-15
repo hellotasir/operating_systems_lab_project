@@ -1,12 +1,12 @@
 import { useCallback, useMemo, useReducer, useState } from "react";
-import { SchedulerContext } from "./SchedulerContext";
+import { SchedulerContext } from "../context/SchedulerContext";
 import {
   ALGORITHMS,
   INITIAL_STATE,
   STEPS,
   canAdvanceFromStep,
   schedulerReducer,
-} from "./scheduler";
+} from "../utils/Scheduler";
 
 export function SchedulerProvider({ children }) {
   const [state, dispatch] = useReducer(schedulerReducer, INITIAL_STATE);

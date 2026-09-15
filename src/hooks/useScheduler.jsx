@@ -1,6 +1,6 @@
 import { useContext, useMemo } from "react";
-import { SchedulerContext } from "./SchedulerContext";
-import { getAlgorithmProcesses, runScheduler } from "./scheduler";
+import { SchedulerContext } from "../context/SchedulerContext";
+import { getAlgorithmProcesses, runScheduler } from "../utils/Scheduler";
 
 export function useScheduler() {
   const context = useContext(SchedulerContext);
